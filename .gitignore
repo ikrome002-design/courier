@@ -1,30 +1,700 @@
-/vendor/
-node_modules/
-npm-debug.log
-yarn-error.log
+# ==============================================================================
+# Courier by Citrus
+# Delivery Management SaaS / Courier Operations Platform
+#
+# Stack:
+# - Laravel / PHP 8.2+
+# - Vue.js or React.js
+# - TypeScript
+# - Vite
+# - Tailwind CSS or Bootstrap 5
+# - PostgreSQL or MySQL
+# - Redis queues/cache
+# - S3-compatible private file storage
+# - Dockerized deployment with CI/CD
+#
+# Security principle:
+# Never commit secrets, private uploads, tenant files, payment data, map keys,
+# logs, generated build artifacts, local machine config, or runtime cache.
+# ==============================================================================
 
-# Laravel 4 specific
-bootstrap/compiled.php
-app/storage/
 
-# Laravel 5 & Lumen specific
-public/storage
-public/hot
+# ==============================================================================
+# 1. Environment files and secrets
+# ==============================================================================
 
-# Laravel 5 & Lumen specific with changed public path
-public_html/storage
-public_html/hot
-
-storage/*.key
 .env
-Homestead.yaml
-Homestead.json
-/.vagrant
-.phpunit.result.cache
+.env.*
+!.env.example
+!.env.testing.example
+!.env.local.example
+!.env.production.example
+!.env.staging.example
 
-/public/build
-/storage/pail
-.env.backup
-.env.production
-.phpactor.json
+# Laravel encrypted environment files may be committed only when intentionally used.
+# Keep the decryption key out of Git.
+.env.encryption.key
+.env.*.key
+
+# Composer authentication can contain private package tokens.
 auth.json
+
+# Generic secret/config files
+secrets/
+secret/
+private/
+private-keys/
+credentials/
+.envrc
+.direnv/
+
+*.secret
+*.secrets
+*.credential
+*.credentials
+*.token
+*.tokens
+*.apikey
+*.api-key
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.csr
+*.jks
+
+# OAuth / service account / cloud provider credentials
+client_secret*.json
+credentials*.json
+service-account*.json
+service_account*.json
+google-credentials*.json
+google-service-account*.json
+firebase-adminsdk*.json
+oauth-client*.json
+
+# Cloud / deployment credentials
+.aws/
+.gcloud/
+.azure/
+.doctl/
+.kube/
+kubeconfig
+terraform.tfstate
+terraform.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Payment, SMS, Maps, email provider local credential dumps
+stripe*.json
+paypal*.json
+paystack*.json
+flutterwave*.json
+mpesa*.json
+daraja*.json
+twilio*.json
+africastalking*.json
+sendgrid*.json
+mailgun*.json
+postmark*.json
+google-maps*.json
+maps-api*.json
+
+
+# ==============================================================================
+# 2. Laravel / PHP dependencies
+# ==============================================================================
+
+/vendor/
+
+# IMPORTANT:
+# Do NOT ignore composer.lock for this SaaS application.
+# composer.lock should be committed for reproducible production builds.
+
+
+# ==============================================================================
+# 3. Laravel runtime files
+# ==============================================================================
+
+/bootstrap/cache/*.php
+/bootstrap/cache/*.log
+
+/storage/*.key
+/storage/oauth-private.key
+/storage/oauth-public.key
+
+# Laravel logs
+/storage/logs/*.log
+/storage/logs/*.json
+/storage/logs/*.txt
+
+# Laravel framework runtime cache
+/storage/framework/cache/*
+!/storage/framework/cache/.gitignore
+
+/storage/framework/cache/data/*
+!/storage/framework/cache/data/.gitignore
+
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+
+/storage/framework/testing/*
+!/storage/framework/testing/.gitignore
+
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+
+# Laravel app-generated temporary files
+/storage/app/tmp/*
+/storage/app/temp/*
+/storage/app/cache/*
+/storage/app/backups/*
+/storage/app/exports/*
+/storage/app/imports/*
+/storage/app/reports/*
+/storage/app/generated/*
+/storage/app/invoices/*
+/storage/app/receipts/*
+/storage/app/labels/*
+/storage/app/qrcodes/*
+/storage/app/barcodes/*
+
+# Keep placeholder .gitignore files where needed
+!/storage/app/.gitignore
+!/storage/app/public/.gitignore
+!/storage/app/private/.gitignore
+
+
+# ==============================================================================
+# 4. Courier by Citrus private upload areas
+# ==============================================================================
+
+# Goods photos, proof-of-delivery photos, documents, invoices, receipts,
+# dispute attachments, provider documents, vehicle documents, and KYC files
+# must never be committed.
+
+/storage/app/public/uploads/*
+/storage/app/public/delivery-photos/*
+/storage/app/public/proof-of-delivery/*
+/storage/app/public/goods-photos/*
+/storage/app/public/provider-documents/*
+/storage/app/public/vehicle-documents/*
+/storage/app/public/kyc/*
+/storage/app/public/disputes/*
+/storage/app/public/invoices/*
+/storage/app/public/receipts/*
+/storage/app/public/avatars/*
+/storage/app/public/profile-photos/*
+
+/storage/app/private/*
+/storage/app/private/uploads/*
+/storage/app/private/delivery-photos/*
+/storage/app/private/proof-of-delivery/*
+/storage/app/private/goods-photos/*
+/storage/app/private/provider-documents/*
+/storage/app/private/vehicle-documents/*
+/storage/app/private/kyc/*
+/storage/app/private/disputes/*
+/storage/app/private/invoices/*
+/storage/app/private/receipts/*
+/storage/app/private/exports/*
+/storage/app/private/imports/*
+/storage/app/private/reports/*
+
+# Preserve intentional directory placeholders
+!/storage/app/public/.gitignore
+!/storage/app/private/.gitignore
+
+
+# ==============================================================================
+# 5. Public/generated web assets
+# ==============================================================================
+
+/public/build/
+/public/hot
+/public/mix-manifest.json
+/public/storage
+
+# Public uploads should not exist in Git. Real uploads belong in private storage
+# or object storage with signed URLs.
+/public/uploads/
+/public/user-content/
+/public/media/
+/public/tmp/
+/public/temp/
+/public/reports/
+/public/exports/
+/public/imports/
+/public/invoices/
+/public/receipts/
+/public/proof-of-delivery/
+/public/delivery-photos/
+/public/goods-photos/
+
+# Keep intentional static brand assets committed manually, for example:
+# /public/favicon.ico
+# /public/images/brand/*
+# /public/robots.txt
+
+
+# ==============================================================================
+# 6. Node.js / JavaScript / TypeScript / Vite
+# ==============================================================================
+
+/node_modules/
+
+# Package manager caches
+.npm/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnpm-store/
+.pnpm-debug.log*
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Vite / frontend build output
+/dist/
+/build/
+/.vite/
+/vite.config.*.timestamp-*
+/vite.config.*.mjs.timestamp-*
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Frontend test and coverage artifacts
+/coverage/
+/.nyc_output/
+/cypress/screenshots/
+/cypress/videos/
+/playwright-report/
+/test-results/
+/storybook-static/
+
+# Optional frontend cache
+.eslintcache
+.stylelintcache
+.cache/
+
+
+# ==============================================================================
+# 7. CSS frameworks and UI tooling
+# ==============================================================================
+
+# Tailwind/Bootstrap generated artifacts should be rebuilt, not committed,
+# unless intentionally exported as static assets.
+tailwind.output.css
+tailwind.generated.css
+*.generated.css
+*.min.css.map
+*.css.map
+
+
+# ==============================================================================
+# 8. Testing artifacts
+# ==============================================================================
+
+.phpunit.result.cache
+.pest.result.cache
+
+/tests/.phpunit.cache/
+/tests/_output/
+/tests/_support/_generated/
+/tests/Browser/screenshots/
+/tests/Browser/console/
+/tests/Browser/source/
+/tests/Browser/logs/
+
+# Dusk / browser testing
+.env.dusk.*
+/storage/app/dusk/
+/storage/logs/dusk.log
+selenium-debug.log
+chromedriver.log
+geckodriver.log
+
+
+# ==============================================================================
+# 9. Static analysis, formatting, and QA cache
+# ==============================================================================
+
+.php-cs-fixer.cache
+.php_cs.cache
+.phpunit.cache/
+.phpstan/
+phpstan.neon.tmp
+psalm.xml.tmp
+.psalm/
+rector-cache/
+.pint.cache
+infection.log
+infection.json
+
+
+# ==============================================================================
+# 10. Database files, dumps, and backups
+# ==============================================================================
+
+# Local SQLite databases
+/database/*.sqlite
+/database/*.sqlite3
+/database/database.sqlite
+/database/testing.sqlite
+
+# Database dumps/backups must never be committed.
+*.sql
+*.sql.gz
+*.dump
+*.backup
+*.bak
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+/backups/
+/database/backups/
+/storage/backups/
+/storage/app/backups/
+
+
+# ==============================================================================
+# 11. Redis, queues, search, realtime, and local service data
+# ==============================================================================
+
+# Redis dumps
+dump.rdb
+appendonly.aof
+appendonlydir/
+
+# Laravel Horizon / queue local artifacts
+/storage/horizon/
+/storage/queue/
+/storage/failed-jobs/
+
+# Search engine local data
+/meili_data/
+/meilisearch_data/
+/typesense-data/
+/typesense_data/
+/elasticsearch-data/
+/elasticsearch_data/
+/opensearch-data/
+/opensearch_data/
+
+/storage/meilisearch/
+/storage/typesense/
+/storage/elasticsearch/
+/storage/opensearch/
+
+# Local websocket/realtime logs
+/storage/logs/websockets.log
+/storage/logs/realtime.log
+/storage/logs/socket.log
+/socket.io.log
+
+
+# ==============================================================================
+# 12. Docker and local container artifacts
+# ==============================================================================
+
+# Keep Dockerfile, docker-compose.yml, and production compose files committed.
+# Ignore only local overrides, generated volumes, and local env files.
+
+docker-compose.override.yml
+docker-compose.local.yml
+docker-compose.dev.yml
+
+.docker/.env
+.docker/*.env
+docker/.env
+docker/*.env
+
+/docker/data/
+/docker/mysql/
+/docker/postgres/
+/docker/redis/
+/docker/minio/
+/docker/meilisearch/
+/docker/typesense/
+/docker/elasticsearch/
+/docker/opensearch/
+/docker/storage/
+/docker/tmp/
+/docker/logs/
+
+# Docker Desktop / local metadata
+.docker/
+
+
+# ==============================================================================
+# 13. Local object storage / S3-compatible development buckets
+# ==============================================================================
+
+# MinIO / local S3 emulator data
+/minio/
+/minio-data/
+/minio_data/
+/s3/
+/s3-data/
+/s3_data/
+/r2-data/
+/r2_data/
+
+
+# ==============================================================================
+# 14. Logs and runtime diagnostics
+# ==============================================================================
+
+logs/
+*.log
+*.log.*
+debug.log
+error.log
+access.log
+
+# Keep application-level log examples only when intentionally documented.
+!logs/.gitignore
+
+
+# ==============================================================================
+# 15. Reports, exports, imports, and generated documents
+# ==============================================================================
+
+/exports/
+/imports/
+/reports/
+/generated/
+/tmp/
+/temp/
+
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.ods
+
+# Allow committed sample fixtures/docs when intentionally placed here.
+!/database/seeders/**/*.csv
+!/tests/Fixtures/**/*.csv
+!/docs/**/*.csv
+
+
+# ==============================================================================
+# 16. Uploaded images, proof files, scans, and generated media
+# ==============================================================================
+
+*.heic
+*.webp
+*.tiff
+*.bmp
+
+# Do not globally ignore all PNG/JPG/SVG files because brand assets, icons,
+# favicons, and UI graphics may need to be committed intentionally.
+# Runtime upload folders are ignored above instead.
+
+
+# ==============================================================================
+# 17. IDE/editor files
+# ==============================================================================
+
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.example.json
+!.vscode/launch.example.json
+
+.fleet/
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Local AI coding assistant/session files that may contain prompts, secrets,
+# repo paths, credentials, or private implementation notes.
+.aider*
+.cursor/
+.windsurf/
+.claude/settings.local.json
+.continue/
+.tabnine/
+
+
+# ==============================================================================
+# 18. OS-generated files
+# ==============================================================================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+
+$RECYCLE.BIN/
+
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+
+# ==============================================================================
+# 19. Temporary files
+# ==============================================================================
+
+*.tmp
+*.temp
+*.swp
+*.swo
+*.swn
+*.bak
+*.orig
+*.rej
+*~
+.~lock.*
+*.pid
+*.seed
+*.pid.lock
+
+
+# ==============================================================================
+# 20. Local SSL certificates and development keys
+# ==============================================================================
+
+/certs/
+/ssl/
+/tls/
+/nginx/certs/
+/docker/certs/
+
+localhost.pem
+localhost-key.pem
+server.key
+server.crt
+
+
+# ==============================================================================
+# 21. Deployment artifacts
+# ==============================================================================
+
+.release/
+releases/
+deployments/
+deployment.zip
+artifact.zip
+artifacts/
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+
+# CI/CD output
+.github/artifacts/
+.gitlab/artifacts/
+
+
+# ==============================================================================
+# 22. Monitoring, profiling, and debugging output
+# ==============================================================================
+
+/storage/debugbar/
+/storage/clockwork/
+/storage/telescope/
+/storage/ray/
+
+.phpdebugbar
+debugbar/
+clockwork/
+telescope/
+ray.log
+
+# Xdebug / profiling
+cachegrind.out.*
+xdebug.log
+
+
+# ==============================================================================
+# 23. Composer / PHP tooling local cache
+# ==============================================================================
+
+.composer/cache/
+vendor-bin/**/vendor/
+
+
+# ==============================================================================
+# 24. Mobile/PWA generated artifacts
+# ==============================================================================
+
+# Keep source manifests/icons committed.
+# Ignore generated screenshots, temporary icons, and local PWA build caches.
+
+/pwa-cache/
+/workbox-cache/
+/public/workbox-*.js.map
+/public/sw.js.map
+/public/precache-manifest.*.js
+
+
+# ==============================================================================
+# 25. Tenant/security-sensitive SaaS data
+# ==============================================================================
+
+# Never commit tenant exports, customer exports, delivery records, audit extracts,
+# payment reconciliation files, webhook payload dumps, or API usage exports.
+
+/tenant-data/
+/customer-data/
+/delivery-data/
+/audit-exports/
+/payment-exports/
+/webhook-dumps/
+/api-logs/
+/reconciliation/
+
+*tenant*.csv
+*customer*.csv
+*delivery*.csv
+*audit*.csv
+*payment*.csv
+*reconciliation*.csv
+*webhook*.json
+*api-log*.json
+
+
+# ==============================================================================
+# 26. Files that SHOULD remain committed
+# ==============================================================================
+
+# Do not add these to .gitignore:
+#
+# composer.lock
+# package-lock.json
+# pnpm-lock.yaml
+# yarn.lock
+# Dockerfile
+# docker-compose.yml
+# .env.example
+# .env.testing.example
+# README.md
+# LICENSE
+# CHANGELOG.md
+# database/migrations/*
+# database/seeders/*
+# config/*
+# routes/*
+# app/*
+# resources/*
+# tests/*
+# .github/workflows/*
+# ==============================================================================
